@@ -2,30 +2,31 @@
 
 namespace App\Control\Cadastro;
 
-use App\Banco\Veiculo as VeiculoDAO;
+use App\Data\DAO as DAO;
 use App\Model\Veiculo as VeiculoModel;
-use App\View\Cadastro\Veiculo\Sucesso as VeiculoSucessoView;
-use App\View\Cadastro\Veiculo\Falha as VeiculoFalhaView;
+use App\View\Veiculo\Sucesso as SucessoView;
+use App\View\Veiculo\Falha as FalhaView;
 
 class Veiculo {
 
   public function __construct() {
   }
 
-  public static function cadastrar () {
-    $tipo = $_POST['tipo'];
-    $placa = $_POST['placa'];
-    $documento = $_POST['documento'];
-    $marca = $_POST['marca'];
-    $modelo = $_POST['modelo'];
-    $cor = $_POST['cor'];
+  public static function cadastrar ($dados) {
+    $tipo = $dados['tipo'];
+    $placa = $dados['placa'];
+    $documento = $dados['documento'];
+    $marca = $dados['marca'];
+    $modelo = $dados['modelo'];
+    $cor = $dados['cor'];
 
     $veiculo = new VeiculoModel($tipo, $placa, $documento, $marca, $modelo, $cor);
 
-    if (VeiculoDAO::salvar($veiculo)) {
-      return VeiculoSucessoView::imprimir($veiculo);
+    $dao = new DAO('veiculos');
+    if ($dao->salvar($veiculo)) {
+      return new SucessoView($veiculo);
     } else {
-      return VeiculoFalhaView::imprimir($veiculo);
+      return new FalhaView($veiculo);
     }
   }
 }

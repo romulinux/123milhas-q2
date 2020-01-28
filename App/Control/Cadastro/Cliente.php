@@ -2,29 +2,30 @@
 
 namespace App\Control\Cadastro;
 
-use App\Banco\Cliente as ClienteDAO;
+use App\Data\DAO as DAO;
 use App\Model\Cliente as ClienteModel;
-use App\View\Cadastro\Cliente\Sucesso as ClienteSucessoView;
-use App\View\Cadastro\Cliente\Falha as ClienteFalhaView;
+use App\View\Cliente\Sucesso as SucessoView;
+use App\View\Cliente\Falha as FalhaView;
 
 class Cliente {
 
   public function __construct() {
   }
 
-  public static function cadastrar () {
-    $nome = $_POST['nome'];
-    $identidade = $_POST['identidade'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $foto = $_POST['foto'];
+  public static function cadastrar ($dados) {
+    $nome = $dados['nome'];
+    $identidade = $dados['identidade'];
+    $telefone = $dados['telefone'];
+    $email = $dados['email'];
+    $foto = $dados['foto'];
 
     $cliente = new ClienteModel($nome, $identidade, $telefone, $email, $foto);
 
-    if (ClienteDAO::salvar($cliente)) {
-      return ClienteSucessoView::imprimir($cliente);
+    $dao = new DAO('clientes');
+    if ($dao->salvar($cliente)) {
+      return new SucessoView($cliente);
     } else {
-      return ClienteFalhaView::imprimir($cliente);
+      return new FalhaView($cliente);
     }
   }
 }

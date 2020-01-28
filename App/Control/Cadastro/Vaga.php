@@ -2,29 +2,28 @@
 
 namespace App\Control\Cadastro;
 
-use App\Banco\Vaga as VagaDAO;
+use App\Data\DAO as DAO;
 use App\Model\Vaga as VagaModel;
-use App\View\Cadastro\Vaga\Sucesso as VagaSucessoView;
-use App\View\Cadastro\Vaga\Falha as VagaFalhaView;
+use App\View\Vaga\Sucesso as SucessoView;
+use App\View\Vaga\Falha as FalhaView;
 
 class Vaga {
 
   public function __construct() {
   }
 
-  public static function cadastrar () {
-    $nome = $_POST['nome'];
-    $identidade = $_POST['identidade'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $foto = $_POST['foto'];
+  public static function cadastrar ($dados) {
+    $codigo = $dados['codigo'];
+    $tipo = $dados['tipo'];
+    $horario = $dados['horario'];
 
-    $cliente = new VagaModel($nome, $identidade, $telefone, $email, $foto);
+    $vaga = new VagaModel($codigo, $tipo, $horario);
 
-    if (VagaDAO::salvar($cliente)) {
-      return VagaSucessoView::imprimir($cliente);
+    $dao = new DAO('vagas');
+    if ($dao->salvar($vaga)) {
+      return new SucessoView($vaga);
     } else {
-      return VagaFalhaView::imprimir($cliente);
+      return new FalhaView($vaga);
     }
   }
 }

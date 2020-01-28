@@ -4,8 +4,8 @@ namespace App\Model;
 
 class Horario {
   private $codigo;
-  private $de;
-  private $ate;
+  private $de; // timestamp que representa o inicio da locação da vaga
+  private $ate; // timestamp que representa o fim da locação da vaga
 
   public function __construct($codigo, $de, $ate) {
     $this->codigo = $codigo;

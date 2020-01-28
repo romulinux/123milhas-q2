@@ -7,14 +7,16 @@ class Cliente {
   private $identidade;
   private $telefone;
   private $email;
-  private $foto;
+  private $foto; // caminho ou url da foto do cliente, usada para quando o cliente for retirar o carro ser feita uma comparação, para evitar que outra pessoa retire o veículo
+  private $saldo;
 
-  public function __construct($nome, $identidade, $telefone, $email, $foto) {
+  public function __construct($nome, $identidade, $telefone, $email, $foto, $saldo = 0) {
     $this->nome = $nome;
     $this->identidade = $identidade;
     $this->telefone = $telefone;
     $this->email = $email;
     $this->foto = $foto;
+    $this->saldo = $saldo;
   }
 
   public function get_nome () {
@@ -37,6 +39,10 @@ class Cliente {
     return $this->foto;
   }
 
+  public function get_saldo () {
+    return $this->saldo;
+  }
+
   public function set_nome ($nome) {
     $this->nome = $nome;
   }
@@ -55,5 +61,9 @@ class Cliente {
 
   public function set_foto ($foto) {
     $this->foto = $foto;
+  }
+
+  public function set_saldo ($saldo) {
+    $this->saldo = $saldo;
   }
 }

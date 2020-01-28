@@ -2,12 +2,9 @@
 
 namespace App\Control;
 
-use App\Banco\Cliente as ClienteDAO;
-use App\Model\Cliente as Cliente;
-use App\Banco\Veiculo as VeiculoDAO;
-use App\Model\Veiculo as Veiculo;
-use App\Banco\Vaga as VagaDAO;
-use App\Model\Vaga as Vaga;
+use App\Cadastro\Cliente as CadastroCliente;
+use App\Cadastro\Veiculo as CadastroVeiculo;
+use App\Cadastro\Vaga as CadastroVaga;
 
 class Cadastro {
 
@@ -15,17 +12,31 @@ class Cadastro {
   }
 
   public static function cadastrar_cliente ($nome, $identidade, $telefone, $email, $foto) {
-    $cliente = new Cliente($nome, $identidade, $telefone, $email, $foto);
-    return ClienteDAO::salvar($cliente);
+    $dados = [];
+    $dados['nome'] = $nome;
+    $dados['identidade'] = $identidade;
+    $dados['telefone'] = $telefone;
+    $dados['email'] = $email;
+    $dados['foto'] = $foto;
+    return CadastroCliente::cadastrar($dados);
   }
 
   public static function cadastrar_veiculo ($tipo, $placa, $documento, $marca, $modelo, $cor) {
-    $veiculo = new Veiculo($tipo, $placa, $documento, $marca, $modelo, $cor);
-    return VeiculoDAO::salvar($veiculo);
+    $dados = [];
+    $dados['tipo'] = $tipo;
+    $dados['placa'] = $placa;
+    $dados['documento'] = $documento;
+    $dados['marca'] = $marca;
+    $dados['modelo'] = $modelo;
+    $dados['cor'] = $cor;
+    return CadastroVeiculo::cadastrar($dados);
   }
 
-  public static function cadastrar_vaga ($codigo, $tipo, $horarios) {
-    $vaga = new Vaga($codigo, $tipo, $horarios);
-    return VagaDAO::salvar($vaga);
+  public static function cadastrar_vaga ($numero, $tipo, $horarios) {
+    $dados = [];
+    $dados['numero'] = $numero;
+    $dados['tipo'] = $tipo;
+    $dados['horarios'] = $horarios;
+    return CadastroVaga::cadastrar($dados);
   }
 }
